@@ -27,12 +27,12 @@ public class ProduitRestController {
         return produitService.getProduit(id);
     }
     @PostMapping
-    public ProduitDTO createProduit(@RequestBody Produit produit){
-        return produitService.saveProduit(produit);
+    public ProduitDTO createProduit(@RequestBody ProduitDTO produitDTO){
+        return produitService.saveProduit(produitDTO);
     }
     @PutMapping
-    public Produit updateProduit(@RequestBody Produit produit){
-        return produitService.updateProduit(produit);
+    public ProduitDTO updateProduit(@RequestBody ProduitDTO produitDTO){
+        return produitService.updateProduit(produitDTO);
     }
     @DeleteMapping(value = "/{id}")
     public void deleteProduit(@PathVariable("id") Long id){

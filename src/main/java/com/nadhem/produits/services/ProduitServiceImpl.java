@@ -4,6 +4,8 @@ import com.nadhem.produits.dto.ProduitDTO;
 import com.nadhem.produits.entities.Categorie;
 import com.nadhem.produits.entities.Produit;
 import com.nadhem.produits.repositories.ProduitRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +17,18 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Autowired
     ProduitRepository produitRepository;
+    @Autowired
+    ModelMapper modelMapper;
 
 
     @Override
-    public ProduitDTO saveProduit(Produit p) {
-        return convertEntityToDto(produitRepository.save(p));
+    public ProduitDTO saveProduit(ProduitDTO p) {
+        return convertEntityToDto(produitRepository.save(convertDtoToEntity(p)));
     }
 
     @Override
-    public Produit updateProduit(Produit p) {
-        return produitRepository.save(p);
+    public ProduitDTO updateProduit(ProduitDTO p) {
+        return convertEntityToDto(produitRepository.save(convertDtoToEntity(p)));
     }
 
     @Override
@@ -86,13 +90,30 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
-    public ProduitDTO convertEntityToDto(Produit p) {
-
-        return ProduitDTO.builder()
+    public ProduitDTO convertEntityToDto(Produit produit) {
+        //ancienne version
+       /* return ProduitDTO.builder()
                 .idProduit(p.getIdProduit())
                 .nomProduit(p.getNomProduit())
                 .dateCreation(p.getDateCreation())
-                .nomCat(p.getCategorie().getNomCat())
-                .build();
+                .categorie(p.getCategorie())
+                .build();*/
+
+        //version avec ModelMapper
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(produit, ProduitDTO.class);
+    }
+
+    @Override
+    public Produit convertDtoToEntity(ProduitDTO produitDTO) {
+        //l'ancienne version
+        /*Produit produit = new Produit();
+        produit.setIdProduit(produitDTO.getIdProduit());
+        produit.setNomProduit(produitDTO.getNomProduit());
+        produit.setPrixProduit(produitDTO.getPrixProduit());
+        produit.setDateCreation(produitDTO.getDateCreation());
+        produit.setCategorie(produitDTO.getCategorie());*/
+        //nouvelle version
+        return modelMapper.map(produitDTO, Produit.class);
     }
 }

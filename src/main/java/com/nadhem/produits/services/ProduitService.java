@@ -7,10 +7,10 @@ import com.nadhem.produits.entities.Produit;
 import java.util.List;
 
 public interface ProduitService {
-    ProduitDTO saveProduit(Produit p);
+    ProduitDTO saveProduit(ProduitDTO p);
     ProduitDTO getProduit(Long id);
     List<ProduitDTO> getAllProduits();
-    Produit updateProduit(Produit p);
+    ProduitDTO updateProduit(ProduitDTO p);
     void deleteProduit(Produit p);
     void deleteProduitById(Long id);
     List<Produit> findByNomProduit(String nom);
@@ -21,4 +21,5 @@ public interface ProduitService {
     List<Produit>findByOrderByNomProduitAsc();
     List<Produit>trierProduitsNomsPrix();
     ProduitDTO convertEntityToDto(Produit p);
+    Produit convertDtoToEntity(ProduitDTO produitDTO);
 }
