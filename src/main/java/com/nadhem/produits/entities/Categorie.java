@@ -1,5 +1,6 @@
 package com.nadhem.produits.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,5 +19,6 @@ public class Categorie {
     private String nomCat;
     private String descriptionCat;
     @OneToMany(mappedBy = "categorie")
+    @JsonIgnore
     private List <Produit> produits;
 }

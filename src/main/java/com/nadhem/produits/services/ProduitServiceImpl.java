@@ -1,5 +1,6 @@
 package com.nadhem.produits.services;
 
+import com.nadhem.produits.dto.ProduitDTO;
 import com.nadhem.produits.entities.Categorie;
 import com.nadhem.produits.entities.Produit;
 import com.nadhem.produits.repositories.ProduitRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProduitServiceImpl implements ProduitService {
@@ -16,8 +18,8 @@ public class ProduitServiceImpl implements ProduitService {
 
 
     @Override
-    public Produit saveProduit(Produit p) {
-        return produitRepository.save(p);
+    public ProduitDTO saveProduit(Produit p) {
+        return convertEntityToDto(produitRepository.save(p));
     }
 
     @Override
@@ -27,22 +29,25 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     public void deleteProduit(Produit p) {
-       produitRepository.delete(p);
+        produitRepository.delete(p);
     }
 
     @Override
     public void deleteProduitById(Long id) {
-       produitRepository.deleteById(id);
+        produitRepository.deleteById(id);
     }
 
     @Override
-    public Produit getProduit(Long id) {
-        return produitRepository.findById(id).get();
+    public ProduitDTO getProduit(Long id) {
+        return convertEntityToDto(produitRepository.findById(id).get());
     }
 
     @Override
-    public List<Produit> getAllProduits() {
-        return produitRepository.findAll();
+    public List<ProduitDTO> getAllProduits() {
+        return produitRepository.findAll()
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -78,5 +83,16 @@ public class ProduitServiceImpl implements ProduitService {
     @Override
     public List<Produit> trierProduitsNomsPrix() {
         return produitRepository.trierProduitsNomsPrix();
+    }
+
+    @Override
+    public ProduitDTO convertEntityToDto(Produit p) {
+
+        return ProduitDTO.builder()
+                .idProduit(p.getIdProduit())
+                .nomProduit(p.getNomProduit())
+                .dateCreation(p.getDateCreation())
+                .nomCat(p.getCategorie().getNomCat())
+                .build();
     }
 }
