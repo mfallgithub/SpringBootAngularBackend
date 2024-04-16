@@ -43,4 +43,9 @@ public class ProduitRestController {
     public List<Produit> getProduitsByCatId(@PathVariable("idCat") Long idCat){
         return produitService.findByCategorieIdCat(idCat);
     }
+
+    @GetMapping("/prodsByName/{nom}")
+    public List<Produit>findByNomProduitContains(@PathVariable("nom") String nom){
+        return produitService.findByNomProduitContains(nom);
+    }
 }
