@@ -4,21 +4,21 @@ import com.nadhem.produits.dto.ProduitDTO;
 import com.nadhem.produits.entities.Categorie;
 import com.nadhem.produits.entities.Produit;
 import com.nadhem.produits.repositories.ProduitRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProduitServiceImpl implements ProduitService {
 
-    @Autowired
-    ProduitRepository produitRepository;
-    @Autowired
-    ModelMapper modelMapper;
+
+    private final ProduitRepository produitRepository;
+    private final ModelMapper modelMapper;
 
 
     @Override

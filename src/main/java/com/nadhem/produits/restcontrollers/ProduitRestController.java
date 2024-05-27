@@ -3,6 +3,7 @@ package com.nadhem.produits.restcontrollers;
 import com.nadhem.produits.dto.ProduitDTO;
 import com.nadhem.produits.entities.Produit;
 import com.nadhem.produits.services.ProduitService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+@RequiredArgsConstructor
 public class ProduitRestController {
 
-    @Autowired
-    ProduitService produitService;
+
+   private final ProduitService produitService;
     @GetMapping("/all")
     public List<ProduitDTO> getAllProduits() {
         return produitService.getAllProduits();

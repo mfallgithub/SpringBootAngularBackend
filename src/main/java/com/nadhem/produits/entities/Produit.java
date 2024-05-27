@@ -23,6 +23,8 @@ public class Produit {
     private Date dateCreation;
     @ManyToOne //optional
     private Categorie categorie;
+    @OneToOne
+    private Image image;
 
     public Produit(String nomProduit, Double prixProduit, Date dateCreation) {
         this.nomProduit = nomProduit;
